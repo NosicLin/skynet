@@ -666,6 +666,21 @@ function _M.query(self, query)
     return  sockchannel:request( querypacket, self.query_resp )
 end
 
+function _M.insert(self,t,values)
+
+	local ele={}
+
+	for k,v in pairs(values) do 
+		v =_M.quote_sql_str(v)
+		table.insert(ele,string.format("`%s`=%s",k,v))
+	end
+
+	local sql="insert into "..t.. " set " ..table.concat(ele," , ")
+	_M.query(self,sql)
+end
+
+
+
 function _M.server_ver(self)
     return self._server_ver
 end
